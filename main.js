@@ -1,12 +1,22 @@
-const container = document.getElementById("container");
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+let count = 0;
 
-container.addEventListener("click", function(event) {
-  const x = Math.floor(Math.random() * window.innerWidth);
-  const y = Math.floor(Math.random() * window.innerHeight);
-  const circle = document.createElement("div");
-  circle.classList.add("circle");
-  circle.style.left = x + "px";
-  circle.style.top = y + "px";
-  container.appendChild(circle);
+canvas.addEventListener("mousedown", function(event) {
+  isDrawing = true;
+  lastX = event.offsetX;
+  lastY = event.offsetY;
 });
 
+canvas.addEventListener("mousemove", function(event) {
+  if (isDrawing) {
+    context.beginPath();
+    context.moveTo(lastX, lastY);
+    context.lineTo(event.offsetX, event.offsetY);
+    context.stroke();
+    lastX = event.offsetX;
+    lastY = event.offsetY;
+    count++;
